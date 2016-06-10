@@ -58,4 +58,5 @@ def hex_to_rgb(value):
     else:
         return('rgb(85,85,85)')
 
+app.run(host='0.0.0.0')
 app.run(debug = True)
