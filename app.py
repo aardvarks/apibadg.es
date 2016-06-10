@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Enter your API URL here: '
+    return 'Enter values here, to get one of these: <img src=http://localhost:5000/badge?labelText=Hello&valueText=World></img>'
 
 @app.route('/badge')
 def get_image():
@@ -25,15 +25,16 @@ def get_image():
     return generate_badge(options)
 
 def generate_badge(options):
-    dwg = svgwrite.Drawing(profile='tiny')
+    labelWidth = (len(str(options['labelText'])) * 6.6 ) + 15
+    valueWidth = (len(str(options['valueText'])) * 6.6 ) + 10
+
+    dwg = svgwrite.Drawing(profile='tiny', size=(labelWidth + valueWidth, 20))
     font = 'Courier New'
     size = '11px'
 
-    labelWidth = (len(str(options['labelText'])) * 6.6 ) + 15
     dwg.add(dwg.rect((0, 0), (labelWidth, 20), fill=hex_to_rgb(options['labelColour'])))
     dwg.add(dwg.text(options['labelText'], insert=(6, 14), fill='rgb(255,255,255)', font_family = font, font_size = size))
 
-    valueWidth = (len(str(options['valueText'])) * 6.6 ) + 10
     dwg.add(dwg.rect((labelWidth, 0), (valueWidth, 20), fill=hex_to_rgb(options['valueColour'])))
     dwg.add(dwg.text(options['valueText'], insert=(labelWidth + 5, 14), fill='rgb(255,255,255)', font_family = font, font_size = size))
 
