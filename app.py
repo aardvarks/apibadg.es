@@ -5,6 +5,7 @@ from flask import make_response
 from io import StringIO
 import svgwrite
 import requests
+import hashlib
 import urllib
 import json
 import re
@@ -79,6 +80,9 @@ def generate_badge(options):
     dwg.write(badge)
     response=make_response(badge.getvalue())
     response.headers['Content-Type'] = 'image/svg+xml'
+    response.headers['Cache-Control'] = 'no-cache'
+    etag = hashlib.sha1(dwg.tostring().encode('utf-8')).hexdigest()
+    response.set_etag(etag)
     return response
 
 def get_api_values(api):
