@@ -12,7 +12,30 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Enter values here, to get one of these: <img src=http://localhost:5000/badge?labelText=Hello&valueText=World></img>'
+    return '''
+    <pre>
+        <form method=get action=/badge><br/>
+            Create an API using this spec to get dynamic badges:
+
+              {
+                'labelText': 'users active',
+                'labelColour': '555555',
+                'valueText': userCount,
+                'valueColour': '44cc11',
+              }
+
+            Api URL: <input name=api type=text /><br/>
+
+            And/or override with these fields:
+
+            Label Colour: <input name=labelColour type=text /><br/>
+            Label Text: <input name=labelText type=text /><br/>
+            Value Colour: <input name=valueColour type=text /><br/>
+            Value Text: <input name=valueText type=text /><br/>
+            <input type=submit /><br/>
+        </form>
+    </pre>
+    '''
 
 @app.route('/badge')
 def get_image():
@@ -25,7 +48,7 @@ def get_image():
     return generate_badge(options)
 
 def generate_badge(options):
-    labelWidth = (len(str(options['labelText'])) * 6.6 ) + 15
+    labelWidth = (len(str(options['labelText'])) * 6.6 ) + 10
     valueWidth = (len(str(options['valueText'])) * 6.6 ) + 10
 
     dwg = svgwrite.Drawing(profile='tiny', size=(labelWidth + valueWidth, 20))
@@ -58,5 +81,4 @@ def hex_to_rgb(value):
     else:
         return('rgb(85,85,85)')
 
-app.run(host='0.0.0.0')
 app.run(debug = True)
