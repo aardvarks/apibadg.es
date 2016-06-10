@@ -5,15 +5,18 @@ from flask import make_response
 from io import StringIO
 import svgwrite
 import requests
+import urllib
 import json
 import re
 
 app = Flask(__name__)
-app.run(host= '0.0.0.0')
 
 @app.route('/')
 def hello_world():
     return '''
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
     <pre>
         <form method=get action=/badge><br/>
             Create an API using this spec to get dynamic badges:
@@ -33,9 +36,16 @@ def hello_world():
             Label Text: <input name=labelText type=text /><br/>
             Value Colour: <input name=valueColour type=text /><br/>
             Value Text: <input name=valueText type=text /><br/>
-            <input type=submit /><br/>
+            <input type=submit onsumbit=removeEmpty() /><br/>
         </form>
     </pre>
+    <script>
+        $('form').submit(function() {
+            $(':input', this).each(function() {
+                this.disabled = !($(this).val())
+            })
+        })
+    </script>
     '''
 
 @app.route('/badge')
@@ -43,7 +53,10 @@ def get_image():
     defaultOptions = { "labelText": 'value', "labelColour": '555555', "valueColour": '44cc11', "valueText": '¯\_(ツ)_/¯' }
     options = defaultOptions.copy()
     if request.args.get('api'):
-        options.update(get_api_values(request.args.get('api')))
+        url=urllib.parse.unquote(request.args.get('api'))
+        if not url.startswith('http'):
+            url = 'http://' + url
+        options.update(get_api_values(url))
     options.update(request.args.to_dict())
 
     return generate_badge(options)
@@ -82,4 +95,5 @@ def hex_to_rgb(value):
     else:
         return('rgb(85,85,85)')
 
+app.run(host='0.0.0.0')
 app.run(debug = True)
