@@ -38,6 +38,8 @@ def hello_world():
             Value Colour: <input name=valueColour type=text /><br/>
             Value Text: <input name=valueText type=text /><br/>
             <input type=submit onsumbit=removeEmpty() /><br/>
+
+            <a href=http://github.com/aardvarks/apibadg.es><img src=/badge?labelText=source&valueText=github /></a>
         </form>
     </pre>
     <script>
