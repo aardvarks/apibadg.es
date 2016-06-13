@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import send_file
 from flask import make_response
+from urllib.parse import urlparse
 from io import StringIO
 import svgwrite
 import requests
@@ -88,6 +89,8 @@ def generate_badge(options):
     return response
 
 def get_api_values(api):
+    if urlparse(api).netloc in ['199.193.252.38', 'itsback.at', 'www.itsback.at' ]:
+        return json.loads('{ "labelText": "Oi!", "valueText": "piss off", "valueColour": "ff0000" }')
     r = requests.get(api)
     return json.loads(r.text)
 
