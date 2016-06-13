@@ -90,7 +90,7 @@ def get_api_values(api):
     return json.loads(r.text)
 
 def hex_to_rgb(value):
-    if re.match('^(?:[0-9a-fA-F]{3}){1,2}$', value) is not None:
+    if re.match('^#?(?:[0-9a-fA-F]{3}){1,2}$', value) is not None:
         value = value.lstrip('#')
         def get_int(pos):
             start = pos * 2
@@ -99,5 +99,5 @@ def hex_to_rgb(value):
     else:
         return('rgb(85,85,85)')
 
-app.run(host='0.0.0.0')
+app.run(host='199.193.252.38', port=80)
 app.run(debug = True)
