@@ -18,6 +18,8 @@ def hello_world():
     return '''
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <title> apibadg.es </title>
+        <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/bag-man/nodeup/master/public/assets/imgs/favicon.ico">
     </head>
     <pre>
         <form method=get action=/badge><br/>
@@ -34,9 +36,9 @@ def hello_world():
 
             And/or override with these fields:
 
-            Label Colour: <input name=labelColour type=text /><br/>
+            Label Colour: <input name=labelColour type=color value="#555555"/><br/>
             Label Text: <input name=labelText type=text /><br/>
-            Value Colour: <input name=valueColour type=text /><br/>
+            Value Colour: <input name=valueColour type=color value="#44cc11"/><br/>
             Value Text: <input name=valueText type=text /><br/>
             <input type=submit onsumbit=removeEmpty() /><br/>
 
@@ -46,7 +48,7 @@ def hello_world():
     <script>
         $('form').submit(function() {
             $(':input', this).each(function() {
-                this.disabled = !($(this).val())
+                this.disabled = !($(this).val()) || $(this).val() === "#555555" || $(this).val() === "#44cc11"
             })
         })
     </script>
@@ -89,7 +91,7 @@ def generate_badge(options):
     return response
 
 def get_api_values(api):
-    if urlparse(api).netloc in ['199.193.252.38', 'itsback.at', 'www.itsback.at' ]:
+    if urlparse(api).netloc in ['199.193.252.38', 'itsback.at', 'www.itsback.at', 'apibadg.es', 'www.apibadg,es' ]:
         return json.loads('{ "labelText": "Oi!", "valueText": "piss off", "valueColour": "ff0000" }')
     r = requests.get(api)
     return json.loads(r.text)
