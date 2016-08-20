@@ -1,8 +1,9 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask
 from flask import request
 from flask import send_file
 from flask import make_response
-from urllib.parse import urlparse
+from urlparse import urlparse
 from io import StringIO
 import svgwrite
 import requests
@@ -106,5 +107,5 @@ def hex_to_rgb(value):
     else:
         return('rgb(85,85,85)')
 
-app.run(host='199.193.252.38', port=80)
+app.run(host='0.0.0.0', port=8080)
 app.run(debug = True)
