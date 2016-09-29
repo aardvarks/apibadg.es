@@ -3,7 +3,7 @@ from flask import Flask
 from flask import request
 from flask import send_file
 from flask import make_response
-from urlparse import urlparse
+from urllib.parse import urlparse
 from io import StringIO
 import svgwrite
 import requests
